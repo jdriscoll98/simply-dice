@@ -76,7 +76,7 @@ private func makeDieNode() -> SCNNode {
 
 // MARK: - UIViewRepresentable wrapper
 
-class DiceSceneCoordinator: NSObject {
+class DiceSceneCoordinator: NSObject, ObservableObject {
     var scene: SCNScene!
     var dieNodes: [SCNNode] = []
     var isRolling = false
@@ -188,13 +188,11 @@ struct DiceView: UIViewRepresentable {
         // Two dice — positioned like Vue: y=1.2 (die1), y=-1.2 (die2)
         let die1 = makeDieNode()
         die1.position = SCNVector3(0, 1.2, 0)
-        die1.eulerAngles = SCNVector3(Float.random(in: 0..<Float.pi * 2),
-                                      Float.random(in: 0..<Float.pi * 2), 0)
+        die1.eulerAngles = eulerAngles(for: Int.random(in: 1...6))
 
         let die2 = makeDieNode()
         die2.position = SCNVector3(0, -1.2, 0)
-        die2.eulerAngles = SCNVector3(Float.random(in: 0..<Float.pi * 2),
-                                      Float.random(in: 0..<Float.pi * 2), 0)
+        die2.eulerAngles = eulerAngles(for: Int.random(in: 1...6))
 
         scene.rootNode.addChildNode(die1)
         scene.rootNode.addChildNode(die2)

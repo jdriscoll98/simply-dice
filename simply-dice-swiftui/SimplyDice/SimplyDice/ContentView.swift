@@ -8,8 +8,8 @@ struct ContentView: View {
     @State private var showSettings = false
 
     private let soundManager = SoundManager.shared
-    private let shakeDetector = ShakeDetector()
-    private let diceCoordinator = DiceSceneCoordinator()
+    @StateObject private var shakeDetector = ShakeDetector()
+    @StateObject private var diceCoordinator = DiceSceneCoordinator()
 
     var body: some View {
         ZStack {
@@ -86,7 +86,7 @@ struct ContentView: View {
                 startShake()
             }
         }
-        .onChange(of: settings.shake) { enabled in
+        .onChange(of: settings.shake) { _, enabled in
             if enabled { startShake() } else { shakeDetector.stop() }
         }
     }
